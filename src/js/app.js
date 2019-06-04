@@ -18,7 +18,14 @@ App = {
     return App.initWeb3();
   },
 
-  initWeb3: function() {
+  initWeb3: async function() {
+      window.web3 = new Web3(ethereum);
+      try {
+          await ethereum.enable();
+      } catch (error) {
+          console.log(error);
+      }
+
       if (typeof web3 !== 'undefined') {
           App.web3Provider = web3.currentProvider;
       } else {
@@ -28,7 +35,6 @@ App = {
 
       $('#account').text(' loaded: \'' + web3.eth.defaultAccount + '\'');
       $('#accountBalance').text(App.getAccountBalance(web3.eth.defaultAccount));
-
 
       return App.initContract();
   },
